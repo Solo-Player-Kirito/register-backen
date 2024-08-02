@@ -56,10 +56,23 @@
 // app.listen(port, () => {
 //   console.log("Server running on port: " + port);
 // });
+
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+// const cors = require("cors");
+// const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+require("dotenv").config(); // Load environment variables from .env file
 
+// const express = require("express");
+// const mongoose = require("mongoose");
+// const app = express();
+const port = process.env.PORT || 3000;
+const DB = process.env.MONGODB_URI;
+mongoose
+  .connect(DB)
+  .then(() => console.log("db connected"))
+  .catch((err) => console.log("error", err));
 app.get("/", (req, res) => {
   res.send("Hello, world local!");
 });
