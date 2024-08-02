@@ -74,12 +74,16 @@ mongoose
   .then(() => console.log("db connected"))
   .catch((err) => console.log("error", err));
 app.get("/", (req, res) => {
-  res.send("Hello, world local, app use done!");
+  res.send("Hello, world local, routes!");
 });
+
+// app.use("/", require("./routes/route"));
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+const userRoutes = require("./routes/route");
+app.use("/", userRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user.models"); // Ensure this path is correct
-const bcrypt = require("bcryptjs"); // For password hashing and comparison
+const bcrypt = require("bcryptjs");
 
 // Signup route
+
+// router.get("/rc", (req, res) => {
+//   res.send("hello rc");
+// });
 router.post("/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -27,8 +31,8 @@ router.post("/signup", async (req, res) => {
     const savedUser = await user.save();
 
     // Respond with the saved user
-    console.log(savedUser);
     res.status(201).json(savedUser);
+    // console.log(req.body);
   } catch (err) {
     // Handle errors
     console.error(err);
