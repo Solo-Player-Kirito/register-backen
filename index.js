@@ -59,8 +59,8 @@
 
 const express = require("express");
 const app = express();
-// const cors = require("cors");
-// const bodyParser = require("body-parser");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config(); // Load environment variables from .env file
 
@@ -74,8 +74,12 @@ mongoose
   .then(() => console.log("db connected"))
   .catch((err) => console.log("error", err));
 app.get("/", (req, res) => {
-  res.send("Hello, world local!");
+  res.send("Hello, world local, app use done!");
 });
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
