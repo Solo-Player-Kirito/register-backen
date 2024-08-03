@@ -68,7 +68,7 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/", (req, res) => {
+router.get("/gulli", (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <html lang="en">
@@ -97,12 +97,19 @@ router.get("/", (req, res) => {
       </style>
     </head>
     <body>
-      <img src="img/kittu.jpg" alt="Sample Image">
+      <img src="img/gulli.jpeg" alt="Sample Image">
       
-      <h1>Full Cover</h1>
-      <p>Ghus Ke maar</p>
+      <h1>Apke samne to chaand bhi feeka lagta hai</h1>
+      <p> ab kaam karein ya chaand dekhein</p> 
     </body>
     </html>`);
 });
 
+// router.get("/Gulli",(req,res=>{
+
+//  res.send(
+
+//  )
+
+// }))
 module.exports = router;
