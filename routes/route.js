@@ -68,4 +68,41 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+router.get("/", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Image and Text</title>
+      <style>
+        body, html {
+   
+          height: 100%;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: #f0f0f0;
+          text-align: center;
+        }
+        img {
+          max-width: 100%;
+          height: auto;
+          margin-bottom: 20px;
+          height : 300px;
+        }
+      </style>
+    </head>
+    <body>
+      <img src="img/mammu.jpeg" alt="Sample Image">
+      
+      <h1>Full Cover</h1>
+      <p>Ghus Ke maar</p>
+    </body>
+    </html>`);
+});
+
 module.exports = router;
