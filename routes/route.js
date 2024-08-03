@@ -97,7 +97,7 @@ router.get("/", (req, res) => {
       </style>
     </head>
     <body>
-      <img src="img/mammu.jpeg" alt="Sample Image">
+      <img src="img/kittu.jpg" alt="Sample Image">
       
       <h1>Full Cover</h1>
       <p>Ghus Ke maar</p>
