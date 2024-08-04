@@ -99,8 +99,8 @@ router.get("/gulli", (req, res) => {
     <body>
       <img src="img/kittu.jpg" alt="Sample Image">
       
-      <h1>Apke samne to chaand bhi feeka lagta hai</h1>
-      <p> ab kaam karein ya chaand dekhein</p> 
+      <h1> im a cat</h1>
+      <p> super cat</p> 
     </body>
     </html>`);
 });
