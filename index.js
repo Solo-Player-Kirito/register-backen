@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const DB = process.env.MONGODB_URI;
 mongoose
   .connect(DB)
-  .then(() => console.log("Database connected successfully"))
+  .then(() => console.log("Database connected successfully "))
   .catch((err) => console.error("Database connection error:", err));
 
 // Routes
