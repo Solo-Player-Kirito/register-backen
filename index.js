@@ -31,7 +31,7 @@ app.use("/", userRoutes);
 // app.use(express.static(path.join(__dirname, "img")));
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("hello world");
+  res.send(" 5 - 8 -24 7pm");
 });
 // JavaScript to dynamically add the image to the container
 // document.addEventListener("DOMContentLoaded", function () {

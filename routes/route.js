@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).json({ message: "Error registering user", error: err });
+    res.status(500).json({ message: "Error registering user 7pm", error: err });
   }
 });
 
@@ -49,13 +49,13 @@ router.post("/signin", async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "email not matching 7pm" });
     }
 
     // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "passwordword not matching 7pm" });
     }
 
     // Respond with the user (excluding password)
