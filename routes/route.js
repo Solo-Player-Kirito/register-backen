@@ -10,7 +10,7 @@ const bcrypt = require("bcryptjs");
 // });
 router.post("/signup", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, userName } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -23,6 +23,7 @@ router.post("/signup", async (req, res) => {
 
     // Create a new user instance
     const user = new User({
+      userName,
       email,
       password: hashedPassword,
     });
