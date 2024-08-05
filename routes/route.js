@@ -100,7 +100,7 @@ router.get("/gulli", (req, res) => {
     <body>
       <img src="img/kittu.jpg" alt="Sample Image">
       
-      <h1> im a cat</h1>
+      <h1> im a cat mammu</h1>
       <p> super cat</p> 
     </body>
     </html>`);
