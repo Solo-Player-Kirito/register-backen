@@ -15,7 +15,7 @@ router.post("/signup", async (req, res) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(401).json({ message: "User already exists" });
     }
 
     // Hash the password before saving
@@ -37,7 +37,9 @@ router.post("/signup", async (req, res) => {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).json({ message: "Error registering user 7pm", error: err });
+    res
+      .status(500)
+      .json({ message: "Error occured while registration", error: err });
   }
 });
 
@@ -49,13 +51,13 @@ router.post("/signin", async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "email not matching 7pm" });
+      return res.status(400).json({ message: "email not matching" });
     }
 
     // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "passwordword not matching 7pm" });
+      return res.status(401).json({ message: "passwordword not matching" });
     }
 
     // Respond with the user (excluding password)
