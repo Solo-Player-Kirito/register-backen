@@ -22,6 +22,8 @@ mongoose
 
 // Routes
 const userRoutes = require("./routes/route");
+const imgroutes = require("./routes/imgs_routes");
+app.use("/", imgroutes);
 app.use("/", userRoutes);
 
 // app.get('/', (req, res) => {
