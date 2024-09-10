@@ -95,7 +95,7 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/gulli", (req, res) => {
+router.get("/rohan", (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <html lang="en">
