@@ -74,8 +74,10 @@ const orphanageSchema = new Schema({
   ],
   totalKids: Number,
 });
-const bannerSSchema = mongoose.Schema({});
-
+const bannerSSchema = mongoose.Schema({
+  MainBanner: [String],
+});
+const Banner = mongoose.model("banner", bannerSSchema);
 const kidsModel = mongoose.model("kidsInfo", kidsSchema);
 const orpModel = mongoose.model("Orphanages", orphanageSchema);
 const User = mongoose.model("User", userSchema);
@@ -84,4 +86,5 @@ module.exports = {
   kidsModel,
   orpModel,
   User,
+  Banner,
 };
