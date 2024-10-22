@@ -1,26 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/user.models"); // Ensure this path is correct
+// Ensure this path is correct
 const bcrypt = require("bcryptjs");
+const { appMod } = require("../models/appointment");
+const { auth } = require("../models/appointment");
 
-router.get("/mammu", async (req, res) => {
-  const alldData = await User.find({});
-  res.json({
-    info: "all users",
-    alldData,
-  });
-});
-// Signup route
-
-// router.get("/rc", (req, res) => {
-//   res.send("hello rc");
-// });
-router.post("/signup", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
-    const { email, password, userName, profileImg } = req.body;
+    const { email, password, userName } = req.body;
 
     // Check if the user already exists
-    const existingUser = await User.findOne({ email: email });
+    const existingUser = await auth.findOne({ email: email });
     if (existingUser) {
       return res.status(401).json({ message: "User already exists" });
     }
@@ -29,7 +19,7 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user instance
-    const user = new User({
+    const user = new auth({
       userName,
       email,
       password: hashedPassword,
@@ -42,7 +32,7 @@ router.post("/signup", async (req, res) => {
 
     // Respond with the saved user
     res.status(201).json({
-      profileImg: "add image",
+      // profileImg: "add image",
       message: "registered sucessfull",
       userName: withoutpass.userName,
       email: withoutpass.email,
@@ -59,12 +49,12 @@ router.post("/signup", async (req, res) => {
 });
 
 // Signin route
-router.post("/signin", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Find the user by email
-    const user = await User.findOne({ email });
+    const user = await auth.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "email not matching" });
     }
@@ -95,48 +85,35 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/rohan", (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Image and Text</title>
-      <style>
-        body, html {
-   
-          height: 100%;
-          margin: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          background-color: #f0f0f0;
-          text-align: center;
-        }
-        img {
-          max-width: 100%;
-          height: auto;
-          margin-bottom: 20px;
-          height : 300px;
-        }
-      </style>
-    </head>
-    <body>
-      <img src="img/kittu.jpg" alt="Sample Image">
-      
-      <h1> im a cat mammu</h1>
-      <p> super cat</p> 
-    </body>
-    </html>`);
+router.post("/appointment/booking", async (req, res) => {
+  try {
+    const { name, city, phone, problem } = req.body;
+    if (!name && !phone) {
+      return res.send({
+        msg: "name and phone is required",
+      });
+    }
+    const data = new appMod({
+      name,
+      city,
+      phone,
+      problem,
+    });
+    await data.save();
+    res.send({
+      msg: "balle balle",
+      data: data,
+    });
+  } catch (err) {
+    console.log({ eror: err });
+  }
 });
 
-// router.get("/Gulli",(req,res=>{
+router.get("/appointment/see", async (req, res) => {
+  const alldData = await appMod.find({});
+  res.send({
+    allData: alldData,
+  });
+});
 
-//  res.send(
-
-//  )
-
-// }))
 module.exports = router;
