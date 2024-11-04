@@ -24,13 +24,16 @@ mongoose
 const userRoutes = require("./routes/route");
 const imgroutes = require("./routes/imgs_routes");
 const orph = require("./routes/orphanage");
+const form = require("./routes/form");
+
+app.use("/", form);
 app.use("/", imgroutes);
 app.use("/", userRoutes);
 app.use("/", orph);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("some response changes on 28-09-2024 ");
+  res.send("some response changes on 2-11-2024 ");
 });
 
 app.listen(port, () => {

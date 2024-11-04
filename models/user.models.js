@@ -10,24 +10,6 @@ const userSchema = new Schema({
   Token: String,
 });
 
-const homePage = new Schema({
-  headSection: {
-    type: [String],
-  },
-  offerSection: {
-    type: [String],
-  },
-  favourites: {
-    type: [String],
-  },
-  repairSection: {
-    type: [String],
-  },
-  repairOffers: {
-    type: [String],
-  },
-});
-
 const kidsSchema = new Schema({
   isAdopted: {
     type: Boolean,

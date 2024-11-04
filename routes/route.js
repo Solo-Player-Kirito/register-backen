@@ -10,11 +10,7 @@ router.get("/mammu", async (req, res) => {
     alldData,
   });
 });
-// Signup route
 
-// router.get("/rc", (req, res) => {
-//   res.send("hello rc");
-// });
 router.post("/signup", async (req, res) => {
   try {
     const { email, password, userName, profileImg } = req.body;
@@ -132,11 +128,4 @@ router.get("/rohan", (req, res) => {
     </html>`);
 });
 
-// router.get("/Gulli",(req,res=>{
-
-//  res.send(
-
-//  )
-
-// }))
 module.exports = router;
