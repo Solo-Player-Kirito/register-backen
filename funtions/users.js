@@ -1,4 +1,4 @@
-const { enrollModel } = require("../models/training_model"); // Assuming enrollModel is in the same directory
+const { userModel } = require("../models/training_model"); // Assuming userModel is in the same directory
 const { courseModel } = require("../models/training_model");
 // Function to add a new enrollment
 function gen() {
@@ -30,11 +30,11 @@ async function addEnrollment({
 
     do {
       rollNo = gen(); // Generate a new roll number
-      const existingRoll = await enrollModel.findOne({ enrollId: rollNo });
+      const existingRoll = await userModel.findOne({ enrollId: rollNo });
       if (!existingRoll) break; // If roll number is unique, exit the loop
     } while (true);
 
-    const enrollment = new enrollModel({
+    const enrollment = new userModel({
       name,
       age,
       phone,
@@ -63,11 +63,11 @@ async function addEnrollment({
 // Function to delete an enrollment by ID
 async function deleteEnrollmentById(id) {
   try {
-    const enrollment = await enrollModel.findById(id);
+    const enrollment = await userModel.findById(id);
     if (!enrollment) {
       return "enrollment not found to delete";
     }
-    const del = await enrollModel.findByIdAndDelete(id);
+    const del = await userModel.findByIdAndDelete(id);
     return del;
   } catch (err) {
     console.error("failed to delete the enrollment", err);
@@ -90,11 +90,11 @@ async function updateEnrollment({
   courseInfo,
 }) {
   try {
-    const enrollment = await enrollModel.findById(id);
+    const enrollment = await userModel.findById(id);
     if (!enrollment) {
       return "no enrollment found to be updated";
     }
-    const update = await enrollModel.findByIdAndUpdate(
+    const update = await userModel.findByIdAndUpdate(
       id,
       {
         name: name,
@@ -122,7 +122,7 @@ async function updateEnrollment({
 // Function to fetch an enrollment by ID
 async function fetchEnrollmentById(id) {
   try {
-    const enrollment = await enrollModel.findById(id).populate("courseInfo");
+    const enrollment = await userModel.findById(id).populate("courseInfo");
     if (!enrollment) {
       return "enrollment not found";
     }
@@ -135,7 +135,7 @@ async function fetchEnrollmentById(id) {
 // Function to fetch all enrollments
 async function fetchAllEnrollments() {
   try {
-    const data = await enrollModel.find();
+    const data = await userModel.find().populate("courseInfo");
     if (data.length === 0) {
       return "no enrollments found";
     }

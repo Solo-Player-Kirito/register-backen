@@ -9,12 +9,12 @@ const {
   updateEnrollment,
   fetchEnrollmentById,
   fetchAllEnrollments,
-} = require("../../funtions/enroll");
+} = require("../../funtions/users");
 
 const router = express.Router();
 
 // Route to add enrollment
-router.post("/add/enrollment", async (req, res) => {
+router.post("/add/user", async (req, res) => {
   const {
     name,
     age,
@@ -56,7 +56,7 @@ router.post("/add/enrollment", async (req, res) => {
 });
 
 // Route to delete enrollment by ID
-router.delete("/delete/enrollment/:id", async (req, res) => {
+router.delete("/delete/user/:id", async (req, res) => {
   const { id } = req.params;
   try {
     if (!id) {
@@ -74,7 +74,7 @@ router.delete("/delete/enrollment/:id", async (req, res) => {
 });
 
 // Route to update enrollment by ID
-router.post("/update/enrollment/:id", async (req, res) => {
+router.post("/update/user/:id", async (req, res) => {
   const { id } = req.params;
   const {
     name,
@@ -121,7 +121,7 @@ router.post("/update/enrollment/:id", async (req, res) => {
 });
 
 // Route to fetch enrollment by ID
-router.get("/enrollment/:id", async (req, res) => {
+router.get("/user/:id", async (req, res) => {
   const { id } = req.params;
   try {
     if (!id) {
@@ -139,7 +139,7 @@ router.get("/enrollment/:id", async (req, res) => {
 });
 
 // Route to fetch all enrollments
-router.get("/enrollments", async (req, res) => {
+router.get("/users", async (req, res) => {
   try {
     const data = await fetchAllEnrollments();
     res.status(200).send({ msg: "All enrollments fetched", data });

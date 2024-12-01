@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const enrollSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     name: String,
     age: String,
@@ -46,7 +46,7 @@ const certificateSchema = new mongoose.Schema(
     },
     time: String,
     photo: String,
-    completed: {
+    isCompleted: {
       type: Boolean,
       default: false,
     },
@@ -56,9 +56,9 @@ const certificateSchema = new mongoose.Schema(
 
 const certModel = mongoose.model("certificates", certificateSchema);
 const courseModel = mongoose.model("courses", courseSchema);
-const enrollModel = mongoose.model("training-users", enrollSchema);
+const userModel = mongoose.model("training-users", userSchema);
 module.exports = {
   certModel,
   courseModel,
-  enrollModel,
+  userModel,
 };

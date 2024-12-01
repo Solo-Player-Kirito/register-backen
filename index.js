@@ -26,7 +26,7 @@ const imgroutes = require("./routes/imgs_routes");
 const orph = require("./routes/orphanage");
 const form = require("./routes/form");
 const course = require("./routes/trainig/course_route");
-const enroll = require("./routes/trainig/enroll_route");
+const enroll = require("./routes/trainig/user_route");
 const certificate = require("./routes/trainig/certificate_routes");
 app.use("/", form);
 app.use("/", imgroutes);
