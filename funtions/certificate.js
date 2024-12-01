@@ -86,26 +86,6 @@ async function updateCertificate({ id, time, isCompleted }) {
   }
 }
 
-// async function updateCertificate({ id, time, isCompleted }) {
-//   try {
-//     const cert = await certModel.findById(id);
-//     if (!cert || cert.length === 0) {
-//       return "certificte not foubnd";
-//     }
-//     const data = await certModel.findByIdAndUpdate(
-//       id,
-//       { time: time, isCompleted: isCompleted },
-//       { new: true }
-//     );
-//     if (!data || data.length === 0) {
-//       return "failed to update";
-//     }
-//     return data;
-//   } catch (err) {
-//     console.error("error occured while updating the certificate", err);
-//     throw err;
-//   }
-// }
 module.exports = {
   certificateEnroll,
   getCertificates,

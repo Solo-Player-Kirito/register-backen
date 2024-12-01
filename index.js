@@ -38,7 +38,7 @@ app.use("/", certificate);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("some response changes on 2-11-2024 ");
+  res.send("some course changes on 1-12-2024 ");
 });
 
 app.listen(port, () => {
