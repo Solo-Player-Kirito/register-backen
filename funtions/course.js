@@ -1,7 +1,27 @@
 const { courseModel } = require("../models/training_model");
+function gen() {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let uniqueId;
 
-async function addCourse({ title, description, image, info, enabled, time }) {
+  uniqueId = Array.from(
+    { length: 10 },
+    () => characters[Math.floor(Math.random() * characters.length)]
+  ).join("");
+
+  return uniqueId;
+}
+
+async function addCourse({
+  title,
+  description,
+  image,
+  info,
+  enabled,
+  time,
+  courseId,
+}) {
   try {
+    let id = gen();
     const course = new courseModel({
       title: title,
       description: description,
@@ -9,6 +29,7 @@ async function addCourse({ title, description, image, info, enabled, time }) {
       info: info,
       enabled: enabled,
       time: time,
+      CourseId: id,
     });
 
     const data = await course.save();

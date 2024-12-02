@@ -33,6 +33,10 @@ const courseSchema = new mongoose.Schema({
     default: true,
   },
   time: String,
+  CourseId: {
+    type: String,
+    unique: true,
+  },
 });
 const certificateSchema = new mongoose.Schema(
   {
