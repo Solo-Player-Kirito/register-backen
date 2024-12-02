@@ -17,7 +17,7 @@ router.post("/add/course", upload.single("image"), async (req, res) => {
   const file = req.file;
   try {
     const img = res.file ? file.path : "null";
-    const date = new Date().toLocaleString();
+    const date = new Date().toISOString();
     const data = await addCourse({
       title,
       description,

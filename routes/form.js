@@ -15,7 +15,7 @@ router.post("/form/input", async (req, res) => {
       email,
       phone,
       message,
-      submitDate: new Date().toISOString(),
+      submitDate: new Date().toLocaleDateString(),
     });
     const mydata = await user.save();
     res.send({ msg: "data saved", mydata });
