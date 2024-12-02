@@ -14,9 +14,9 @@ const router = express.Router();
 
 router.post("/add/course", upload.single("image"), async (req, res) => {
   const { title, description, info, enabled } = req.body;
-
+  const file = req.file;
   try {
-    const img = "bingo";
+    const img = file.path;
     const date = new Date();
     const data = await addCourse({
       title,

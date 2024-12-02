@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const { storage } = require("../../utils/cloudinary_setup");
-const upload = multer({ storage });
+
 const {
   certificateEnroll,
   getCertificates,
