@@ -6,7 +6,7 @@ require("dotenv").config();
 const path = require("path");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
@@ -38,7 +38,7 @@ app.use("/", certificate);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("some course changes on 2-12-2024 ");
+  res.send("some course changes on 02-12-2024 ");
 });
 
 app.listen(port, () => {
