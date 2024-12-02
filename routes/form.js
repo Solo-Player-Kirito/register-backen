@@ -3,10 +3,6 @@ const router = express.Router();
 
 const formModel = require("../models/form_model");
 
-router.get("/form/get", (req, res) => {
-  res.send(`<h1>form is ok</h1>`);
-});
-
 router.post("/form/input", async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
@@ -14,7 +10,6 @@ router.post("/form/input", async (req, res) => {
       return res.send("name and phone is required");
     }
     normaldate = new Date();
-
     const user = new formModel({
       name,
       email,
