@@ -16,12 +16,13 @@ router.post("/add/course", upload.single("image"), async (req, res) => {
   const { title, description, info, enabled } = req.body;
   const file = req.file;
   try {
-    const img = res.file ? file.path : "null";
+    // const img = res.file ? file.path : "null";
+
     const date = new Date().toISOString();
     const data = await addCourse({
       title,
       description,
-      image: img,
+      image: req.file.path,
       info,
       enabled,
       time: date,
