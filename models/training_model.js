@@ -37,7 +37,19 @@ const courseSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
+  price: String,
+  newPrice: String,
+  duration: String,
+  posters: {
+    image1: String,
+    image2: String,
+    image3: String,
+    image4: String,
+    image5: String,
+  },
+  video: String,
 });
+
 const certificateSchema = new mongoose.Schema(
   {
     courseInfo: {

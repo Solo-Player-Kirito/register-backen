@@ -1,4 +1,5 @@
 const { courseModel } = require("../models/training_model");
+
 function gen() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let uniqueId;
@@ -18,18 +19,27 @@ async function addCourse({
   info,
   enabled,
   time,
-  courseId,
+  price,
+  newPrice,
+  duration,
+  posters,
+  video,
 }) {
   try {
     let id = gen();
     const course = new courseModel({
-      title: title,
-      description: description,
-      image: image,
-      info: info,
-      enabled: enabled,
-      time: time,
+      title,
+      description,
+      image,
+      info,
+      enabled,
+      time,
       CourseId: id,
+      price,
+      newPrice,
+      duration,
+      posters,
+      video,
     });
 
     const data = await course.save();
@@ -39,7 +49,7 @@ async function addCourse({
     }
     return data;
   } catch (err) {
-    console.error("some error occured while adding the course", err);
+    console.error("some error occurred while adding the course", err);
   }
 }
 
@@ -47,7 +57,7 @@ async function deleteCourseById(id) {
   try {
     const course = await courseModel.findById(id);
     if (!course) {
-      return "course not found ot delete";
+      return "course not found to delete";
     }
     const del = await courseModel.findByIdAndDelete(id);
     return del;
@@ -55,7 +65,20 @@ async function deleteCourseById(id) {
     console.error("failed to delete the course", err);
   }
 }
-async function updateCourse({ id, title, description, image, info, enabled }) {
+
+async function updateCourse({
+  id,
+  title,
+  description,
+  image,
+  info,
+  enabled,
+  price,
+  newPrice,
+  duration,
+  posters,
+  video,
+}) {
   try {
     const course = await courseModel.findById(id);
     if (!course) {
@@ -64,11 +87,16 @@ async function updateCourse({ id, title, description, image, info, enabled }) {
     const update = await courseModel.findByIdAndUpdate(
       id,
       {
-        title: title,
-        description: description,
-        image: image,
-        info: info,
-        enabled: enabled,
+        title,
+        description,
+        image,
+        info,
+        enabled,
+        price,
+        newPrice,
+        duration,
+        posters,
+        video,
       },
       { new: true }
     );
@@ -77,9 +105,10 @@ async function updateCourse({ id, title, description, image, info, enabled }) {
     }
     return update;
   } catch (err) {
-    console.error("failed to update the course");
+    console.error("failed to update the course", err);
   }
 }
+
 async function fetchCourseById(id) {
   try {
     const course = await courseModel.findById(id);
@@ -88,9 +117,10 @@ async function fetchCourseById(id) {
     }
     return course;
   } catch (err) {
-    console.error("error while fetching the course");
+    console.error("error while fetching the course", err);
   }
 }
+
 async function fetchAllCourses() {
   try {
     const data = await courseModel.find();
@@ -102,6 +132,7 @@ async function fetchAllCourses() {
     console.error("error while fetching the courses", err);
   }
 }
+
 module.exports = {
   addCourse,
   deleteCourseById,
