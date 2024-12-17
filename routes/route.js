@@ -31,7 +31,7 @@ router.post("/register", async (req, res) => {
     // Save the user to the database
 
     // Respond with the saved user
-    res.status(201).json({
+    res.status(200).json({
       // profileImg: "add image",
       message: "registered sucessfull",
       userName: withoutpass.userName,
@@ -89,7 +89,7 @@ router.post("/appointment/booking", async (req, res) => {
   try {
     const { name, city, phone, problem } = req.body;
     if (!name && !phone) {
-      return res.send({
+      return res.status(200).send({
         msg: "name and phone is required",
       });
     }
