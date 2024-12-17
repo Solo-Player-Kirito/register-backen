@@ -22,7 +22,7 @@ router.post("/certificate/enrollment", async (req, res) => {
       isCompleted,
       id,
     });
-    res.status(201).send({ msg: "certificate enrollment", data });
+    res.status(201).send(data);
   } catch (err) {
     console.log("some error occured whwile certificate enrollment", err);
     res
@@ -33,7 +33,7 @@ router.post("/certificate/enrollment", async (req, res) => {
 router.get("/certificates", async (req, res) => {
   try {
     const data = await getCertificates();
-    res.send({ msg: "certificates", data });
+    res.send(data);
   } catch (err) {
     res
       .status(500)
@@ -52,7 +52,7 @@ router.get("/certificate/:enrollId", async (req, res) => {
     if (!data) {
       return res.status(404).send({ msg: "Certificate not found" });
     }
-    res.send({ msg: "Certificate fetched successfully", data });
+    res.send(data);
   } catch (err) {
     console.error("An error occurred while fetching the certificate", err);
     res.status(500).send({ msg: "Failed to fetch certificate", err });
@@ -67,7 +67,7 @@ router.post("/certificate/update/:id", async (req, res) => {
     }
 
     const data = await updateCertificate({ id, time, isCompleted });
-    res.send({ msg: "updated certificate", data });
+    res.send(data);
   } catch (err) {
     res.send({ msg: "error while updating the certificate", err });
     console.log("error while updating the certificate", err);

@@ -33,7 +33,7 @@ async function addEnrollment({
       const existingRoll = await userModel.findOne({ enrollId: rollNo });
       if (!existingRoll) break; // If roll number is unique, exit the loop
     } while (true);
-
+    const date = new Date().toISOString();
     const enrollment = new userModel({
       name,
       age,
@@ -47,6 +47,7 @@ async function addEnrollment({
       pincode,
       courseInfo,
       enrollId: rollNo,
+      time: date,
     });
 
     const data = await enrollment.save();

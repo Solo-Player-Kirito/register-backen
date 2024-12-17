@@ -25,7 +25,7 @@ router.post(
       description,
       info,
       enabled,
-      price,
+      review,
       newPrice,
       duration,
       video,
@@ -57,13 +57,14 @@ router.post(
         duration,
         posters,
         video,
+        review,
       });
 
       if (!data) {
         return res.status(400).send("Failed to save course");
       }
 
-      res.send({ msg: "Success adding the course", data });
+      res.send(data);
     } catch (err) {
       console.log("Error while adding the course", err);
       res.status(500).send({ msg: "Failed to add the course", err });
@@ -79,7 +80,7 @@ router.delete("/delete/course/:id", async (req, res) => {
       return res.status(400).send("ID is required to delete the course");
     }
     const data = await deleteCourseById(id);
-    res.send({ msg: "Course deletion", data });
+    res.send(data);
   } catch (err) {
     console.log("Failed to delete the course", err);
     res.status(500).send("Failed to delete the course");
@@ -104,6 +105,7 @@ router.post(
       newPrice,
       duration,
       video,
+      review,
     } = req.body;
     const files = req.files;
 
@@ -134,9 +136,10 @@ router.post(
         duration,
         posters,
         video,
+        review,
       });
 
-      res.send({ msg: "Course updated successfully", data });
+      res.send(data);
     } catch (err) {
       console.log("Error while updating the course", err);
       res.status(500).send({ msg: "Failed to update the course", err });

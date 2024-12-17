@@ -48,6 +48,7 @@ const courseSchema = new mongoose.Schema({
     image5: String,
   },
   video: String,
+  review: String,
 });
 
 const certificateSchema = new mongoose.Schema(

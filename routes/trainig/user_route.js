@@ -48,7 +48,7 @@ router.post("/add/user", async (req, res) => {
       return res.status(400).send("Failed to save enrollment");
     }
 
-    res.status(201).send({ msg: "Enrollment successful", data });
+    res.status(201).send(data);
   } catch (err) {
     console.log("Error while adding enrollment", err);
     res.status(500).send({ msg: "Failed to add enrollment", err });
@@ -66,7 +66,7 @@ router.delete("/delete/user/:id", async (req, res) => {
     if (!data) {
       return res.status(404).send("Enrollment not found");
     }
-    res.status(200).send({ msg: "Enrollment deleted", data });
+    res.status(200).send(data);
   } catch (err) {
     console.log("Error while deleting enrollment", err);
     res.status(500).send("Failed to delete enrollment");
@@ -113,7 +113,7 @@ router.post("/update/user/:id", async (req, res) => {
       return res.status(404).send("Enrollment not found");
     }
 
-    res.status(200).send({ msg: "Enrollment updated", data });
+    res.status(200).send(data);
   } catch (err) {
     console.log("Error while updating enrollment", err);
     res.status(500).send("Failed to update enrollment");
@@ -131,7 +131,7 @@ router.get("/user/:id", async (req, res) => {
     if (!data) {
       return res.status(404).send("Enrollment not found");
     }
-    res.status(200).send({ msg: "Enrollment fetched", data });
+    res.status(200).send(data);
   } catch (err) {
     console.log("Error while fetching enrollment", err);
     res.status(500).send("Failed to fetch enrollment");
@@ -142,7 +142,7 @@ router.get("/user/:id", async (req, res) => {
 router.get("/users", async (req, res) => {
   try {
     const data = await fetchAllEnrollments();
-    res.status(200).send({ msg: "All enrollments fetched", data });
+    res.status(200).send(data);
   } catch (err) {
     console.log("Error while fetching enrollments", err);
     res.status(500).send("Failed to fetch enrollments");
