@@ -112,7 +112,6 @@ router.post("/update/user/:id", async (req, res) => {
     if (!data) {
       return res.status(404).send("Enrollment not found");
     }
-
     res.status(200).send(data);
   } catch (err) {
     console.log("Error while updating enrollment", err);
