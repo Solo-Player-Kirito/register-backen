@@ -1,7 +1,6 @@
+const express = require("express");
 const multer = require("multer");
 const { storage } = require("../../utils/cloudinary_setup");
-const upload = multer({ storage });
-const express = require("express");
 const {
   addCourse,
   deleteCourseById,
@@ -10,6 +9,7 @@ const {
   fetchAllCourses,
 } = require("../../funtions/course");
 
+const upload = multer({ storage });
 const router = express.Router();
 
 // Add a new course
@@ -26,17 +26,24 @@ router.post(
       info,
       enabled,
       review,
+      price,
       newPrice,
       duration,
       video,
     } = req.body;
     const files = req.files;
-    try {
-      if (!title || !description || !info) {
-        return res.status(404).send("all fields are required");
-      }
-      const date = new Date().toISOString();
 
+    try {
+      // Validate required fields
+      if (!title || !description || !info) {
+        return res.status(400).json({
+          message: "Title, description, info, and price are required.",
+        });
+      }
+
+      const date = new Date();
+
+      // Construct posters object with null values if not provided
       const posters = {
         image1: files.posters?.[0]?.path || null,
         image2: files.posters?.[1]?.path || null,
@@ -45,12 +52,13 @@ router.post(
         image5: files.posters?.[4]?.path || null,
       };
 
-      const data = await addCourse({
+      const courseData = {
         title,
         description,
         image: files.image?.[0]?.path || null,
         info,
-        enabled,
+        enabled:
+          enabled !== undefined ? enabled === "true" || enabled === true : true, // Parse as Boolean
         time: date,
         price,
         newPrice,
@@ -58,16 +66,16 @@ router.post(
         posters,
         video,
         review,
-      });
+      };
 
-      if (!data) {
-        return res.status(400).send("Failed to save course");
-      }
+      const data = await addCourse(courseData);
 
-      res.send(data);
+      res.status(201).json({ message: "Course added successfully.", data }); // Include a success message
     } catch (err) {
-      console.log("Error while adding the course", err);
-      res.status(500).send({ msg: "Failed to add the course", err });
+      console.error("Error while adding the course:", err);
+      res
+        .status(500)
+        .json({ message: "Failed to add the course.", error: err.message });
     }
   }
 );
@@ -75,20 +83,31 @@ router.post(
 // Delete a course by ID
 router.delete("/delete/course/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     if (!id) {
-      return res.status(400).send("ID is required to delete the course");
+      return res
+        .status(400)
+        .json({ message: "Course ID is required to delete the course." });
     }
+
     const data = await deleteCourseById(id);
-    res.send(data);
+
+    if (!data) {
+      return res.status(404).json({ message: "Course not found." });
+    }
+
+    res.json({ message: "Course deleted successfully.", data });
   } catch (err) {
-    console.log("Failed to delete the course", err);
-    res.status(500).send("Failed to delete the course");
+    console.error("Failed to delete the course:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to delete the course.", error: err.message });
   }
 });
 
 // Update a course by ID
-router.post(
+router.put(
   "/update/course/:id",
   upload.fields([
     { name: "image", maxCount: 1 },
@@ -111,9 +130,12 @@ router.post(
 
     try {
       if (!id) {
-        return res.status(400).send("ID is required to update the course");
+        return res
+          .status(400)
+          .json({ message: "Course ID is required to update the course." });
       }
 
+      // Construct posters object if posters are provided
       const posters = files.posters
         ? {
             image1: files.posters[0]?.path || null,
@@ -124,25 +146,41 @@ router.post(
           }
         : undefined;
 
-      const data = await updateCourse({
+      // Prepare update data
+      const updateData = {
         id,
         title,
         description,
-        image: files.image?.[0]?.path || undefined,
+        image: files.image?.[0]?.path,
         info,
-        enabled,
+        enabled: enabled !== undefined ? enabled : undefined,
         price,
         newPrice,
         duration,
         posters,
         video,
         review,
-      });
+      };
 
-      res.send(data);
+      // Remove undefined fields
+      Object.keys(updateData).forEach(
+        (key) => updateData[key] === undefined && delete updateData[key]
+      );
+
+      const data = await updateCourse(updateData);
+
+      if (!data) {
+        return res
+          .status(404)
+          .json({ message: "Course not found or no changes made." });
+      }
+
+      res.json({ message: "Course updated successfully.", data });
     } catch (err) {
-      console.log("Error while updating the course", err);
-      res.status(500).send({ msg: "Failed to update the course", err });
+      console.error("Error while updating the course:", err);
+      res
+        .status(500)
+        .json({ message: "Failed to update the course.", error: err.message });
     }
   }
 );
@@ -150,15 +188,26 @@ router.post(
 // Fetch a single course by ID
 router.get("/course/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     if (!id) {
-      return res.status(400).send("ID is required to fetch the course");
+      return res
+        .status(400)
+        .json({ message: "Course ID is required to fetch the course." });
     }
+
     const data = await fetchCourseById(id);
-    res.send(data);
+
+    if (!data) {
+      return res.status(404).json({ message: "Course not found." });
+    }
+
+    res.json(data);
   } catch (err) {
-    console.log("Error while fetching the course", err);
-    res.status(500).send("Failed to fetch the course");
+    console.error("Error while fetching the course:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch the course.", error: err.message });
   }
 });
 
@@ -166,10 +215,12 @@ router.get("/course/:id", async (req, res) => {
 router.get("/courses", async (req, res) => {
   try {
     const data = await fetchAllCourses();
-    res.send(data);
+    res.json(data);
   } catch (err) {
-    console.log("Failed to fetch the courses", err);
-    res.status(500).send("Failed to fetch courses");
+    console.error("Failed to fetch the courses:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch courses.", error: err.message });
   }
 });
 

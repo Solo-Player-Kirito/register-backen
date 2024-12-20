@@ -1,3 +1,4 @@
+// const { courseModel } = require("../models/training_model");
 const { courseModel } = require("../models/training_model");
 
 function gen() {
