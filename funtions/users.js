@@ -89,37 +89,57 @@ async function updateEnrollment({
   address,
   pincode,
   courseInfo,
+  historyMessage, // New: Message to add to history
 }) {
   try {
+    // Fetch the enrollment by ID
     const enrollment = await userModel.findById(id);
     if (!enrollment) {
-      return "no enrollment found to be updated";
+      return "No enrollment found to be updated";
     }
-    const update = await userModel.findByIdAndUpdate(
+
+    // Prepare the update object
+    const updateFields = {
+      name,
+      age,
+      phone,
+      email,
+      skills,
+      qualification,
+      state,
+      city,
+      address,
+      pincode,
+      courseInfo,
+    };
+
+    // Add a new history entry if historyMessage is provided
+    if (historyMessage) {
+      updateFields.$push = {
+        history: { message: historyMessage, time: new Date() },
+      };
+    }
+
+    // Perform the update
+    const updatedEnrollment = await userModel.findByIdAndUpdate(
       id,
+      updateFields,
       {
-        name: name,
-        age: age,
-        phone: phone,
-        email: email,
-        skills: skills,
-        qualification: qualification,
-        state: state,
-        city: city,
-        address: address,
-        pincode: pincode,
-        courseInfo: courseInfo,
-      },
-      { new: true }
+        new: true, // Return the updated document
+      }
     );
-    if (!update) {
-      return "error while updating the enrollment fields";
+
+    if (!updatedEnrollment) {
+      return "Error while updating the enrollment fields";
     }
-    return update;
+
+    return updatedEnrollment;
   } catch (err) {
-    console.error("failed to update the enrollment", err);
+    console.error("Failed to update the enrollment", err);
+    throw new Error("Internal server error");
   }
 }
+
 // Function to fetch an enrollment by ID
 async function fetchEnrollmentById(id) {
   try {

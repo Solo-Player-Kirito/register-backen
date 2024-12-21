@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
+    history: [
+      {
+        message: String,
+        time: { type: Date, default: Date.now },
+      },
+    ],
     name: String,
     age: String,
     phone: String,
@@ -62,7 +68,7 @@ const certificateSchema = new mongoose.Schema(
       ref: "training-users",
     },
     time: String,
-    photo: String,
+    // photo: String,
     isCompleted: {
       type: Boolean,
       default: false,

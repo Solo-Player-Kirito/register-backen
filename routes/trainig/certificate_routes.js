@@ -13,6 +13,7 @@ const router = express.Router();
 router.post("/certificate/enrollment", async (req, res) => {
   const { time, isCompleted, id } = req.body;
   //   const id = req.params;
+  // this id is user id
   try {
     if (!time || !isCompleted || !id) {
       res.status(404).send("all fields are required");

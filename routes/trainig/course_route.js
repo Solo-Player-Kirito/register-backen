@@ -107,7 +107,7 @@ router.delete("/delete/course/:id", async (req, res) => {
 });
 
 // Update a course by ID
-router.put(
+router.post(
   "/update/course/:id",
   upload.fields([
     { name: "image", maxCount: 1 },
