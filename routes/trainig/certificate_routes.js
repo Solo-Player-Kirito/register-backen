@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const { storage } = require("../../utils/cloudinary_setup");
-
+const upload = multer({ storage });
 const {
   certificateEnroll,
   getCertificates,
@@ -11,25 +11,31 @@ const {
 const { userModel, courseModel } = require("../../models/training_model");
 const router = express.Router();
 
-router.post("/certificate/enrollment", async (req, res) => {
-  const { time, isCompleted, id } = req.body;
-  try {
-    if (!time || !isCompleted || !id) {
-      res.status(404).send("all fields are required");
+router.post(
+  "/certificate/enrollment",
+  upload.single("certificate"),
+  async (req, res) => {
+    const { time, isCompleted, id } = req.body;
+    const file = req.file;
+    try {
+      if (!time || !isCompleted || !id) {
+        res.status(404).send("all fields are required");
+      }
+      const data = await certificateEnroll({
+        time,
+        isCompleted,
+        id,
+        certificate: file.path,
+      });
+      res.status(201).send(data);
+    } catch (err) {
+      console.log("some error occured whwile certificate enrollment", err);
+      res
+        .status(500)
+        .send({ msg: "some error occured whwile certificate enrollment", err });
     }
-    const data = await certificateEnroll({
-      time,
-      isCompleted,
-      id,
-    });
-    res.status(201).send(data);
-  } catch (err) {
-    console.log("some error occured whwile certificate enrollment", err);
-    res
-      .status(500)
-      .send({ msg: "some error occured whwile certificate enrollment", err });
   }
-});
+);
 router.get("/certificates", async (req, res) => {
   try {
     const data = await getCertificates();
@@ -58,19 +64,35 @@ router.get("/certificate/:enrollId", async (req, res) => {
     res.status(500).send({ msg: "Failed to fetch certificate", err });
   }
 });
-router.post("/certificate/update/:id", async (req, res) => {
-  const { time, isCompleted } = req.body;
-  const { id } = req.params;
-  try {
-    if (!time || !isCompleted || !id) {
-      res.status(201).send("fields are required");
-    }
+router.post(
+  "/certificate/update/:id",
+  upload.single("certificate"),
+  async (req, res) => {
+    const { time, isCompleted, certificate } = req.body;
+    const { id } = req.params;
+    const file = req.file;
 
-    const data = await updateCertificate({ id, time, isCompleted });
-    res.send(data);
-  } catch (err) {
-    res.send({ msg: "error while updating the certificate", err });
-    console.log("error while updating the certificate", err);
+    try {
+      // Example of correcting a response status for missing fields
+      if (!time || !isCompleted || !id) {
+        return res.status(400).send("All fields are required");
+      }
+
+      if (!file) {
+        return res.status(400).send("Certificate file is required");
+      }
+
+      const data = await updateCertificate({
+        id,
+        time,
+        isCompleted,
+        certificate: file.path,
+      });
+      res.send(data);
+    } catch (err) {
+      res.send({ msg: "error while updating the certificate", err });
+      console.log("error while updating the certificate", err);
+    }
   }
-});
+);
 module.exports = router;

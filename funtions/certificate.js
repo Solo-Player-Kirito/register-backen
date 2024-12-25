@@ -6,18 +6,19 @@ const {
 
 // we will put the teme of completion and mark the isCompleted as true
 
-async function certificateEnroll({ time, id, isCompleted }) {
+async function certificateEnroll({ time, id, isCompleted, certificate }) {
   try {
     const user = await userModel.findById(id).populate("courseInfo");
 
-    const certificate = new certModel({
+    const certificateD = new certModel({
       isCompleted: isCompleted,
       time: time,
       courseInfo: user.courseInfo._id,
       userInfo: user._id,
+      certificate: certificate,
     });
 
-    const data = await certificate.save();
+    const data = await certificateD.save();
 
     return data;
   } catch (err) {
@@ -60,7 +61,7 @@ async function getCertificateByEnrollId(enrollId) {
     throw err; // Rethrow the error for proper error handling in the caller
   }
 }
-async function updateCertificate({ id, time, isCompleted }) {
+async function updateCertificate({ id, time, isCompleted, certificate }) {
   try {
     // Check if certificate exists
     const cert = await certModel.findById(id); // Use `await` to get the result
@@ -71,7 +72,7 @@ async function updateCertificate({ id, time, isCompleted }) {
     // Update the certificate with new data
     const data = await certModel.findByIdAndUpdate(
       id,
-      { time, isCompleted },
+      { time, isCompleted, certificate },
       { new: true } // Return the updated document
     );
 
