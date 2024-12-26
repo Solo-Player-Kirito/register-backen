@@ -114,6 +114,7 @@ async function updateEnrollment({
     };
 
     // Add a new history entry if historyMessage is provided
+
     if (historyMessage) {
       updateFields.$push = {
         history: { message: historyMessage, time: new Date() },
@@ -121,6 +122,7 @@ async function updateEnrollment({
     }
 
     // Perform the update
+
     const updatedEnrollment = await userModel.findByIdAndUpdate(
       id,
       updateFields,
@@ -154,6 +156,7 @@ async function fetchEnrollmentById(id) {
 }
 
 // Function to fetch all enrollments
+
 async function fetchAllEnrollments() {
   try {
     const data = await userModel.find().populate("courseInfo");

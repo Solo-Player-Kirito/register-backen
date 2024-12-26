@@ -77,7 +77,20 @@ const certificateSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+const bannersSchema = new mongoose.Schema(
+  {
+    banners: {
+      type: String,
+    },
+    name: String,
+    isEnabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { _id: true }
+);
+const BannerModel = mongoose.model("training-banners", bannersSchema);
 const certModel = mongoose.model("certificates", certificateSchema);
 const courseModel = mongoose.model("courses", courseSchema);
 const userModel = mongoose.model("training-users", userSchema);
@@ -85,4 +98,5 @@ module.exports = {
   certModel,
   courseModel,
   userModel,
+  BannerModel,
 };

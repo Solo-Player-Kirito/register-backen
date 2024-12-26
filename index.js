@@ -29,6 +29,7 @@ const form = require("./routes/form");
 const course = require("./routes/trainig/course_route");
 const enroll = require("./routes/trainig/user_route");
 const certificate = require("./routes/trainig/certificate_routes");
+const banner = require("./funtions/banners");
 app.use("/", form);
 app.use("/", imgroutes);
 app.use("/", userRoutes);
@@ -36,10 +37,11 @@ app.use("/", orph);
 app.use("/", course);
 app.use("/", enroll);
 app.use("/", certificate);
+app.use("/", banner);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("time course changes on 25-12-2024 ");
+  res.send("time training banners addition 26-12-2024 ");
 });
 
 app.listen(port, () => {
