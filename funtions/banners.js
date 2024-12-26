@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/training/banner/add",
-  upload.single("banner"),
+  upload.single("banners"),
   async (req, res) => {
     const file = req.file;
     const { name, isEnabled } = req.body;
@@ -42,16 +42,31 @@ router.get("/training/banner", async (req, res) => {
 
 router.post(
   "/training/banner/update/:id",
-  upload.single("banner"),
+  upload.single("banners"),
   async (req, res) => {
     const { id } = req.params;
     const file = req.file;
     const { name, isEnabled } = req.body;
+
     try {
+      // Build the update object dynamically based on the request
+      const updateData = {};
+      if (file) {
+        updateData.banners = file.path; // Update the banner image if a new file is provided
+      }
+      if (name) {
+        updateData.name = name; // Update the name if provided
+      }
+      if (isEnabled !== undefined) {
+        updateData.isEnabled = isEnabled; // Update the isEnabled field if provided
+      }
+
       const updatedBanner = await BannerModel.findByIdAndUpdate(
         id,
-        { banners: file.path, name: name, isEnabled: isEnabled },
-        { new: true }
+        updateData,
+        {
+          new: true,
+        }
       );
 
       if (!updatedBanner) {
