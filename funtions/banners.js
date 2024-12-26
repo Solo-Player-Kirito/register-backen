@@ -48,10 +48,6 @@ router.post(
     const file = req.file;
     const { name, isEnabled } = req.body;
     try {
-      if (!file) {
-        return res.status(400).send("Please add the updated file");
-      }
-
       const updatedBanner = await BannerModel.findByIdAndUpdate(
         id,
         { banners: file.path, name: name, isEnabled: isEnabled },
