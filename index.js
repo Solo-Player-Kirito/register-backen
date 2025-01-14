@@ -30,6 +30,7 @@ const course = require("./routes/trainig/course_route");
 const enroll = require("./routes/trainig/user_route");
 const certificate = require("./routes/trainig/certificate_routes");
 const banner = require("./funtions/banners");
+const blogs = require("./routes/blog_routes/blog_route")
 app.use("/", form);
 app.use("/", imgroutes);
 app.use("/", userRoutes);
@@ -38,6 +39,7 @@ app.use("/", course);
 app.use("/", enroll);
 app.use("/", certificate);
 app.use("/", banner);
+app.use("/blogs", blogs);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
