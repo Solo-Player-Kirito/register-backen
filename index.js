@@ -43,7 +43,7 @@ app.use("/blogs", blogs);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("time training banners addition 26-12-2024 ");
+  res.send("blog section added on 14-01-2025 ");
 });
 
 app.listen(port, () => {
