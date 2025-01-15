@@ -43,7 +43,7 @@ app.use("/blogs", blogs);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("blog section added on 14-01-2025 ");
+  res.send("blog section added with new schema on 15-01-2025 ");
 });
 
 app.listen(port, () => {
