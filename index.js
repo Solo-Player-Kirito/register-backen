@@ -31,6 +31,7 @@ const enroll = require("./routes/trainig/user_route");
 const certificate = require("./routes/trainig/certificate_routes");
 const banner = require("./funtions/banners");
 const blogs = require("./routes/blog_routes/blog_route")
+const jobs = require("./routes/job_routes/job_routes");
 app.use("/", form);
 app.use("/", imgroutes);
 app.use("/", userRoutes);
@@ -40,6 +41,7 @@ app.use("/", enroll);
 app.use("/", certificate);
 app.use("/", banner);
 app.use("/blogs", blogs);
+app.use("/jobs",jobs);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
