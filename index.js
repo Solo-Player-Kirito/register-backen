@@ -45,7 +45,7 @@ app.use("/jobs",jobs);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send("blog readme file updated on 15-01-2025 ");
+  res.send("jobs profile 23-01-2025 ");
 });
 
 app.listen(port, () => {
