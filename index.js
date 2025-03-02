@@ -60,7 +60,7 @@ app.post("/webhook", async (req, res) => {
     const data = await wmodel.create({
       data: req.body,
     });
-    res.status(200).send("ok web");
+    res.status(200).send("ok");
   } catch (err) {
     console.log("some error in the webhook : ", err);
     res.status(500).send("internal server error in the webhook : )");
