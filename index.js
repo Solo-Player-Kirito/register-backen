@@ -57,9 +57,13 @@ app.post("/webhook", async (req, res) => {
     console.log("webhook ok listening : ");
     console.log(req.body);
 
-    const data = await wmodel.create({
+    // const data = await wmodel.create({
+    //   data: req.body,
+    // });
+    const data = new wmodel({
       data: req.body,
     });
+    await data.save();
     res.status(200).send("ok");
   } catch (err) {
     console.log("some error in the webhook : ", err);
