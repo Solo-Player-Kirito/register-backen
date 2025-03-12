@@ -15,7 +15,7 @@ const jobModel = require("../../models/job_models/job_model");
 router.get("/check", async (req, res) => {
   res.status(201).send("ok");
 });
-router.post("/add/job",upload.single("resume") ,async (req, res) => {
+router.post("/add/job", upload.single("resume"), async (req, res) => {
   const {
     name,
     age,
@@ -29,14 +29,14 @@ router.post("/add/job",upload.single("resume") ,async (req, res) => {
   } = req.body;
   const resume = req.file;
   try {
-    if(!name || !phone || !age){
-        return res.status(404).send("all fields are required")
+    if (!name || !phone || !age) {
+      return res.status(404).send("all fields are required");
     }
     const data = await addJob({
       name,
       age,
       qualification,
-      resume:resume.path,
+      resume: resume.path,
       other,
       email,
       phone,
@@ -60,30 +60,27 @@ router.get("/jobs", async (req, res) => {
     res.status(500).send("error while fething the data : ", err);
   }
 });
-router.delete("/delete/job/:id",async(req,res)=>{
-    const {id} = req.params
-    try{
-        if(!id){
-            return res.status(404).send("id is required to delete");
-        }
-const data = await deleteJobByID(id);
-res.status(201).send(data);
-    }catch(err){
-        console.log("error while deleting the job : ",err);
-        res.status(500).send("error while deleting the job : ",err)
+router.delete("/delete/job/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!id) {
+      return res.status(404).send("id is required to delete");
     }
-})
-router.get("/job/:phone",async(req,res)=>{
-    const {phone} = req.params;
-    try{
-        if(!phone){
-            return res.status(404).send("contect required to get the data");
-        }
-        const data = await getJobByPhone(phone);
-        res.status(201).send(data);
-
-    }catch(err){
-
+    const data = await deleteJobByID(id);
+    res.status(201).send(data);
+  } catch (err) {
+    console.log("error while deleting the job : ", err);
+    res.status(500).send("error while deleting the job : ", err);
+  }
+});
+router.get("/job/:phone", async (req, res) => {
+  const { phone } = req.params;
+  try {
+    if (!phone) {
+      return res.status(404).send("contect required to get the data");
     }
-})
+    const data = await getJobByPhone(phone);
+    res.status(201).send(data);
+  } catch (err) {}
+});
 module.exports = router;

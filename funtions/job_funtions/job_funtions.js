@@ -57,17 +57,15 @@ async function deleteJobByID(id) {
   }
 }
 async function getJobByPhone(phone) {
-    try{
-const data = await jobModel.findOne({phone:phone});
-if(!data || data.length===0){
-return "no data found or wrong contact";
-}
-return data;
-    }catch(err){
-        console.error("error while fething the blog");
-        return "error while fething the blog";
-        
+  try {
+    const data = await jobModel.findOne({ phone: phone });
+    if (!data || data.length === 0) {
+      return "no data found or wrong contact";
     }
-    
+    return data;
+  } catch (err) {
+    console.error("error while fething the blog");
+    return "error while fething the blog";
+  }
 }
-module.exports = { addJob, getAllJobs, deleteJobByID,getJobByPhone };
+module.exports = { addJob, getAllJobs, deleteJobByID, getJobByPhone };

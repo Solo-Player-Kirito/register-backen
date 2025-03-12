@@ -37,6 +37,9 @@ const certificate = require("./routes/trainig/certificate_routes");
 const banner = require("./funtions/banners");
 const blogs = require("./routes/blog_routes/blog_route");
 const jobs = require("./routes/job_routes/job_routes");
+
+const ipAddress = require("./routes/ipAddress.route");
+app.use("/", ipAddress);
 app.use("/", form);
 app.use("/", imgroutes);
 app.use("/", userRoutes);
@@ -50,16 +53,12 @@ app.use("/jobs", jobs);
 
 app.use("/img", express.static(path.join(__dirname, "img")));
 app.get("/", (req, res) => {
-  res.send(" webhook test-1  : 02 - 03 - 2025 ");
+  res.send(" webhook test-1-1  : 02 - 03 - 2025 ");
 });
 app.post("/webhook", async (req, res) => {
   try {
     console.log("webhook ok listening : ");
     console.log(req.body);
-
-    // const data = await wmodel.create({
-    //   data: req.body,
-    // });
     const data = new wmodel({
       data: req.body,
     });
