@@ -4,31 +4,59 @@ const express = require("express");
 const IpAdddress = require("../models/idAddress");
 const router = express.Router();
 
+// router.get("/live/news", async (req, res) => {
+//   try {
+//     const logEntry = new IpAdddress({
+//       eventName: req.body.eventName || "Unknown Event",
+//       ipAddress: req.ip,
+//       userAgent: req.headers["user-agent"],
+//       routeAccessed: req.originalUrl,
+//       requestMethod: req.method,
+//       referrer: req.headers.referer || req.headers.referrer || "",
+//       geoLocation: req.body.geoLocation || {}, // You can fill this with an IP geolocation service
+//       headers: req.headers,
+//       queryParams: req.query,
+//       bodyParams: req.body,
+//       cookies: req.cookies,
+//       deviceType: req.body.deviceType || "",
+//       networkProvider: req.body.networkProvider || "",
+//       isp: req.body.isp || "",
+//     });
+//     console.log(logEntry);
+//     await logEntry.save();
+//     res.status(201).json({ message: "Log entry saved successfully!" });
+//   } catch (error) {
+//     res.status(500).json({ message: "Failed to save log entry", error });
+//   }
+// });
+
 router.get("/live/news", async (req, res) => {
   try {
-    const logEntry = new IpAdddress({
-      eventName: req.body.eventName || "Unknown Event",
-      ipAddress: req.ip,
+    const ipAddress =
+      req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+
+    const log = new IpAdddress({
+      eventName: "Link Click",
+      ipAddress: ipAddress, // Get the real IP
       userAgent: req.headers["user-agent"],
       routeAccessed: req.originalUrl,
       requestMethod: req.method,
-      referrer: req.headers.referer || req.headers.referrer || "",
-      geoLocation: req.body.geoLocation || {}, // You can fill this with an IP geolocation service
+      referrer: req.headers["referer"] || req.headers["referrer"],
       headers: req.headers,
       queryParams: req.query,
-      bodyParams: req.body,
-      cookies: req.cookies,
-      deviceType: req.body.deviceType || "",
-      networkProvider: req.body.networkProvider || "",
-      isp: req.body.isp || "",
+      cookies: req.cookies || {},
+      deviceType: getDeviceType(req.headers["user-agent"]),
+      geoLocation: await getGeoLocation(ipAddress),
     });
-    console.log(logEntry);
-    await logEntry.save();
-    res.status(201).json({ message: "Log entry saved successfully!" });
-  } catch (error) {
-    res.status(500).json({ message: "Failed to save log entry", error });
+
+    await log.save();
+    res.status(200).send("Failed to load");
+  } catch (err) {
+    console.log("Error in log:", err);
+    res.status(500).send("Internal server error");
   }
 });
+
 router.get("/ip/see", async (req, res) => {
   try {
     const data = await IpAdddress.find();
