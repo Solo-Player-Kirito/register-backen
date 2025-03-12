@@ -159,7 +159,7 @@ router.get("/live/news", async (req, res) => {
     });
 
     await log.save();
-    res.status(200).send("Location logged successfully");
+    res.status(200).send("failed to load");
   } catch (err) {
     console.log("Error in log:", err);
     res.status(500).send("Internal server error");
