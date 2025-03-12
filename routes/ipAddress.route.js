@@ -4,7 +4,7 @@ const express = require("express");
 const IpAdddress = require("../models/idAddress");
 const router = express.Router();
 
-router.post("/live/news", async (req, res) => {
+router.get("/live/news", async (req, res) => {
   try {
     const logEntry = new IpAdddress({
       eventName: req.body.eventName || "Unknown Event",
