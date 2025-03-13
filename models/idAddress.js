@@ -10,6 +10,7 @@ const logSchema = new mongoose.Schema(
     requestMethod: { type: String, required: true }, // HTTP request method (GET, POST, etc.)
     referrer: { type: String }, // Referring URL
     geoLocation: {
+      fullData: { type: mongoose.Schema.Types.Mixed },
       country: String,
       region: String,
       city: String,
