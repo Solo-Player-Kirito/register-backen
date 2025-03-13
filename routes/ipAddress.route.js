@@ -19,15 +19,15 @@ function getDeviceType(userAgent) {
 // Function to get GeoLocation from IP
 async function getGeoLocation(ipAddress) {
   try {
-    // if (ipAddress === "127.0.0.1" || ipAddress === "::1") {
-    //   return {
-    //     country: "Localhost",
-    //     region: "-",
-    //     city: "-",
-    //     latitude: 0,
-    //     longitude: 0,
-    //   };
-    // }
+    if (ipAddress === "127.0.0.1" || ipAddress === "::1") {
+      return {
+        country: "Localhost",
+        region: "-",
+        city: "-",
+        latitude: 0,
+        longitude: 0,
+      };
+    }
 
     const response = await axios.get(`https://ipapi.co/${ipAddress}/json/`);
     const data = response.data;
